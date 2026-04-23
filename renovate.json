@@ -30,6 +30,7 @@
     {
       "matchDatasources": ["custom.seqera-platform-api"],
       "automerge": false,
+      "recreateClosed": true,
       "labels": ["api-update"],
       "commitMessageTopic": "Seqera Platform API",
       "branchName": "renovate/seqera-api-{{{newVersion}}}"
