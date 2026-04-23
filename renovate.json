@@ -1,0 +1,53 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended"
+  ],
+  "customDatasources": {
+    "seqera-platform-api": {
+      "defaultRegistryUrlTemplate": "https://raw.githubusercontent.com/seqeralabs/platform/master/VERSION-API.txt",
+      "format": "plain",
+      "transformTemplates": [
+        "{ \"releases\": [ { \"version\": $$, \"isStable\": true } ] }"
+      ]
+    }
+  },
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Track the Seqera Platform API version embedded in the Speakeasy gen.lock",
+      "fileMatch": ["^\\.speakeasy/gen\\.lock$"],
+      "matchStrings": [
+        "docVersion: (?<currentValue>[\\d\\.]+)"
+      ],
+      "depNameTemplate": "seqera-platform-api",
+      "datasourceTemplate": "custom.seqera-platform-api",
+      "versioningTemplate": "semver-coerced"
+    }
+  ],
+  "packageRules": [
+    {
+      "matchDatasources": ["custom.seqera-platform-api"],
+      "automerge": false,
+      "labels": ["api-update"],
+      "commitMessageTopic": "Seqera Platform API",
+      "branchName": "renovate/seqera-api-{{{newVersion}}}"
+    }
+  ],
+  "postUpgradeTasks": {
+    "commands": [
+      "curl -fsSL -H 'Authorization: token {{{env.GITHUB_TOKEN}}}' -H 'Accept: application/vnd.github.v3.raw' 'https://api.github.com/repos/seqeralabs/platform/contents/tower-backend/src/main/resources/META-INF/openapi/seqera-api-latest.yml' -o specs/seqera-api-cloud.yaml",
+      "speakeasy run --skip-versioning"
+    ],
+    "fileFilters": [
+      "specs/seqera-api-cloud.yaml",
+      "internal/**",
+      ".speakeasy/out.openapi.yaml",
+      ".speakeasy/workflow.lock",
+      ".speakeasy/gen.lock",
+      "docs/**",
+      "go.sum"
+    ],
+    "executionMode": "branch"
+  }
+}
