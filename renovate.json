@@ -5,7 +5,7 @@
   ],
   "customDatasources": {
     "seqera-platform-api": {
-      "defaultRegistryUrlTemplate": "https://raw.githubusercontent.com/seqeralabs/platform/master/VERSION-API.txt",
+      "defaultRegistryUrlTemplate": "https://raw.githubusercontent.com/seqeralabs/platform/master/VERSION-API",
       "format": "plain",
       "transformTemplates": [
         "{ \"releases\": [ { \"version\": $$, \"isStable\": true } ] }"
@@ -36,8 +36,7 @@
   ],
   "postUpgradeTasks": {
     "commands": [
-      "curl -fsSL -H 'Authorization: token {{{env.GITHUB_TOKEN}}}' -H 'Accept: application/vnd.github.v3.raw' 'https://api.github.com/repos/seqeralabs/platform/contents/tower-backend/src/main/resources/META-INF/openapi/seqera-api-latest.yml' -o specs/seqera-api-cloud.yaml",
-      "speakeasy run --skip-versioning"
+      "curl -fsSL -H 'Authorization: token {{{env.GITHUB_TOKEN}}}' -H 'Accept: application/vnd.github.v3.raw' 'https://api.github.com/repos/seqeralabs/platform/contents/tower-backend/src/main/resources/META-INF/openapi/seqera-api-latest.yml' -o specs/seqera-api-cloud.yaml"
     ],
     "fileFilters": [
       "specs/seqera-api-cloud.yaml",
