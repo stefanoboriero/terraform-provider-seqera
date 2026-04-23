@@ -9,7 +9,7 @@
       "defaultRegistryUrlTemplate": "https://raw.githubusercontent.com/seqeralabs/platform/master/VERSION-API",
       "format": "plain",
       "transformTemplates": [
-        "{ \"releases\": releases[version != \"\"] }"
+        "{ \"releases\": [ { \"version\": $trim(releases[0].version), \"isStable\": true } ] }"
       ]
     }
   },
