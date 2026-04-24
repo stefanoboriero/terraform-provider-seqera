@@ -1,0 +1,99 @@
+import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
+
+
+plugins {
+    id("org.openapi.generator") version "7.17.0"
+}
+
+
+apply plugin: 'org.openapi.generator'
+
+tasks.register('buildJavaClient', GenerateTask) {
+    generatorName = "java"
+    inputSpec = "$rootDir/seqera-api.yml".toString()
+    modelPackage = "io.seqera.tower.model"
+    apiPackage = "io.seqera.tower.api"
+    outputDir = "$buildDir/java".toString()
+    configOptions = [
+            groupId: "io.seqera.tower",
+            artifactId: "tower-java-sdk",
+            artifactVersion: "1.144.0",
+            library: "jersey2",
+            hideGenerationTimestamp: "true",
+            dateLibrary: "java8",
+            // Collection types default to `null` instead of empty
+            containerDefaultToNull: "true"
+    ]
+    openapiNormalizer = [
+            // Remove `oneOf` for models with additional properties (they cause problems in SDK generation)
+            REMOVE_ANYOF_ONEOF_AND_KEEP_PROPERTIES_ONLY: 'true',
+            // Build class hierarchies using `allOf` with parent class as first item in `allOf` array
+            REF_AS_PARENT_IN_ALLOF: 'true',
+    ]
+}
+
+tasks.register('buildGoClient', GenerateTask) {
+    generatorName = "go"
+    inputSpec = "$rootDir/seqera-api.yml".toString()
+    outputDir = "$buildDir/go".toString()
+    configOptions = [
+            enumClassPrefix: "true",
+            structPrefix   : "true",
+            isGoSubModule  : "true"
+    ]
+    openapiNormalizer = [
+            REMOVE_ANYOF_ONEOF_AND_KEEP_PROPERTIES_ONLY: 'true',
+            REF_AS_PARENT_IN_ALLOF: 'true',
+    ]
+}
+
+tasks.register('buildPythonClient', GenerateTask) {
+    generatorName = "python"
+    inputSpec = "$rootDir/seqera-api.yml".toString()
+    outputDir = "$buildDir/python".toString()
+    openapiNormalizer = [
+            REMOVE_ANYOF_ONEOF_AND_KEEP_PROPERTIES_ONLY: 'true',
+            REF_AS_PARENT_IN_ALLOF: 'true',
+    ]
+}
+
+tasks.register('codegen') {
+    dependsOn(
+            'buildJavaClient',
+            'buildGoClient',
+            // Python SDK generation is fails due to `pattern: ""` elements in the OpenAPI spec
+            // FIXME https://seqera.atlassian.net/browse/PLAT-962
+//            'buildPythonClient'
+    )
+}
+
+// Add Gradle config to allow to publish to Github registry
+// Note: The newer version of OpenAPI Generator (7.17.0) changes the generated build.gradle to already include a maven publication,
+// so we only add the GitHub repository and the missing jersey-hk2 dependency.
+tasks.register('addGradleConfig') {
+    doLast {
+        new File([projectDir, "build", "java", "build.gradle"].join(File.separator)) << """
+// define these in the `gradle.properties` file
+ext.githubUser = project.findProperty('github.packages.user')
+ext.githubToken = project.findProperty('github.packages.token')
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/seqeralabs/tower-java-sdk")
+            credentials {
+                username = githubUser ?: System.getenv("GITHUB_USERNAME")
+                password = githubToken ?: System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
+}
+dependencies {
+    implementation "org.glassfish.jersey.inject:jersey-hk2:\$jersey_version"
+}
+"""
+    }
+}
+
+buildJavaClient.finalizedBy(addGradleConfig)
