@@ -73,7 +73,7 @@
     {
       "matchDepNames": ["speakeasy-api/speakeasy"],
       "additionalBranchPrefix": "speakeasy-update-",
-      "branchTopic": "v{{{newVersion}}}",
+      "branchTopic": "v{{{newValue}}}",
       "rebaseWhen": "conflicted",
       "commitMessagePrefix": "chore:"
     }
