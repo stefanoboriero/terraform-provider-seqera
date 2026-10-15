@@ -36,6 +36,14 @@
       "depNameTemplate": "seqera-platform-api",
       "datasourceTemplate": "custom.seqera-platform-api",
       "versioningTemplate": "semver-coerced"
+    },
+    {
+      "customType": "regex",
+      "description": "Track the pinned Speakeasy CLI version",
+      "fileMatch": ["^\\.speakeasy/workflow\\.yaml$"],
+      "matchStrings": ["speakeasyVersion: (?<currentValue>\\d+\\.\\d+\\.\\d+)"],
+      "depNameTemplate": "speakeasy-api/speakeasy",
+      "datasourceTemplate": "github-releases"
     }
   ],
   "packageRules": [
@@ -45,22 +53,29 @@
       "recreateClosed": true,
       "labels": ["api-update"],
       "commitMessageTopic": "Seqera Platform API",
-      "branchName": "renovate/seqera-api-{{{newVersion}}}"
+      "branchName": "renovate/seqera-api-{{{newVersion}}}",
+      "postUpgradeTasks": {
+        "commands": [
+          "curl -fsSL 'https://cloud.dev-seqera.io/openapi/seqera-api-latest.yml' -o specs/seqera-api-cloud.yaml"
+        ],
+        "fileFilters": [
+          "specs/seqera-api-cloud.yaml",
+          "internal/**",
+          ".speakeasy/out.openapi.yaml",
+          ".speakeasy/workflow.lock",
+          ".speakeasy/gen.lock",
+          "docs/**",
+          "go.sum"
+        ],
+        "executionMode": "branch"
+      }
+    },
+    {
+      "matchDepNames": ["speakeasy-api/speakeasy"],
+      "additionalBranchPrefix": "speakeasy-update-",
+      "branchTopic": "v{{{newVersion}}}",
+      "rebaseWhen": "conflicted",
+      "commitMessagePrefix": "chore:"
     }
-  ],
-  "postUpgradeTasks": {
-    "commands": [
-      "curl -fsSL 'https://cloud.dev-seqera.io/openapi/seqera-api-latest.yml' -o specs/seqera-api-cloud.yaml"
-    ],
-    "fileFilters": [
-      "specs/seqera-api-cloud.yaml",
-      "internal/**",
-      ".speakeasy/out.openapi.yaml",
-      ".speakeasy/workflow.lock",
-      ".speakeasy/gen.lock",
-      "docs/**",
-      "go.sum"
-    ],
-    "executionMode": "branch"
-  }
+  ]
 }
