@@ -1,4 +1,4 @@
-speakeasyVersion: 1.761.8
+speakeasyVersion: 1.802.0
 sources:
     Seqera API:
         sourceNamespace: seqera-api
@@ -6,6 +6,7 @@ sources:
         sourceBlobDigest: sha256:1f44bfb4c4d12d05fd1424c5bbe261dd160e675c7bad276362c15b8f8934599b
         tags:
             - latest
+            - renovate-speakeasy-update-v1.802.0
             - 1.144.0
 targets:
     seqera:
@@ -15,7 +16,7 @@ targets:
         sourceBlobDigest: sha256:1f44bfb4c4d12d05fd1424c5bbe261dd160e675c7bad276362c15b8f8934599b
 workflow:
     workflowVersion: 1.0.0
-    speakeasyVersion: latest
+    speakeasyVersion: 1.802.0
     sources:
         Seqera API:
             inputs:

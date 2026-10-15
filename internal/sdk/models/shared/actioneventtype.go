@@ -61,7 +61,14 @@ func CreateActionEventTypeTower(tower ActionTowerActionEvent) ActionEventType {
 	}
 }
 
-func (u *ActionEventType) UnmarshalJSON(data []byte) error {
+func (u *ActionEventType) UnmarshalJSON(data []byte) (err error) {
+	previous := *u
+	*u = ActionEventType{}
+	defer func() {
+		if err != nil {
+			*u = previous
+		}
+	}()
 
 	type discriminator struct {
 		Discriminator string `json:"discriminator"`

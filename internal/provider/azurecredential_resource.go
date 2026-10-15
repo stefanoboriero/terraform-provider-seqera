@@ -196,6 +196,8 @@ func (r *AzureCredentialResource) Create(ctx context.Context, req resource.Creat
 		return
 	}
 
+	ctx = withSensitiveValues(ctx, req.Config, req.Plan)
+
 	request, requestDiags := data.ToOperationsCreateAzureCredentialsRequest(ctx, opts)
 	resp.Diagnostics.Append(requestDiags...)
 
@@ -204,7 +206,7 @@ func (r *AzureCredentialResource) Create(ctx context.Context, req resource.Creat
 	}
 	res, err := r.client.Credentials.CreateAzureCredentials(ctx, *request)
 	if err != nil {
-		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		resp.Diagnostics.AddError("failure to invoke API", redactSensitiveValues(ctx, err.Error()))
 		if res != nil && res.RawResponse != nil {
 			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res.RawResponse))
 		}
@@ -263,6 +265,8 @@ func (r *AzureCredentialResource) Read(ctx context.Context, req resource.ReadReq
 		return
 	}
 
+	ctx = withSensitiveValues(ctx, req.State)
+
 	request, requestDiags := data.ToOperationsDescribeAzureCredentialsRequest(ctx, nil)
 	resp.Diagnostics.Append(requestDiags...)
 
@@ -271,7 +275,7 @@ func (r *AzureCredentialResource) Read(ctx context.Context, req resource.ReadReq
 	}
 	res, err := r.client.Credentials.DescribeAzureCredentials(ctx, *request)
 	if err != nil {
-		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		resp.Diagnostics.AddError("failure to invoke API", redactSensitiveValues(ctx, err.Error()))
 		if res != nil && res.RawResponse != nil {
 			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res.RawResponse))
 		}
@@ -338,6 +342,8 @@ func (r *AzureCredentialResource) Update(ctx context.Context, req resource.Updat
 		return
 	}
 
+	ctx = withSensitiveValues(ctx, req.Config, req.Plan, req.State)
+
 	request, requestDiags := data.ToOperationsUpdateAzureCredentialsRequest(ctx, opts)
 	resp.Diagnostics.Append(requestDiags...)
 
@@ -346,7 +352,7 @@ func (r *AzureCredentialResource) Update(ctx context.Context, req resource.Updat
 	}
 	res, err := r.client.Credentials.UpdateAzureCredentials(ctx, *request)
 	if err != nil {
-		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		resp.Diagnostics.AddError("failure to invoke API", redactSensitiveValues(ctx, err.Error()))
 		if res != nil && res.RawResponse != nil {
 			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res.RawResponse))
 		}
@@ -389,6 +395,8 @@ func (r *AzureCredentialResource) Delete(ctx context.Context, req resource.Delet
 		return
 	}
 
+	ctx = withSensitiveValues(ctx, req.State)
+
 	request, requestDiags := data.ToOperationsDeleteAzureCredentialsRequest(ctx, nil)
 	resp.Diagnostics.Append(requestDiags...)
 
@@ -397,7 +405,7 @@ func (r *AzureCredentialResource) Delete(ctx context.Context, req resource.Delet
 	}
 	res, err := r.client.Credentials.DeleteAzureCredentials(ctx, *request)
 	if err != nil {
-		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		resp.Diagnostics.AddError("failure to invoke API", redactSensitiveValues(ctx, err.Error()))
 		if res != nil && res.RawResponse != nil {
 			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res.RawResponse))
 		}

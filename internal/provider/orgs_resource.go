@@ -149,7 +149,7 @@ func (r *OrgsResource) Create(ctx context.Context, req resource.CreateRequest, r
 	}
 	res, err := r.client.Orgs.CreateOrganization(ctx, *request)
 	if err != nil {
-		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		resp.Diagnostics.AddError("failure to invoke API", redactSensitiveValues(ctx, err.Error()))
 		if res != nil && res.RawResponse != nil {
 			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res.RawResponse))
 		}
@@ -216,7 +216,7 @@ func (r *OrgsResource) Read(ctx context.Context, req resource.ReadRequest, resp 
 	}
 	res, err := r.client.Orgs.DescribeOrganization(ctx, *request)
 	if err != nil {
-		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		resp.Diagnostics.AddError("failure to invoke API", redactSensitiveValues(ctx, err.Error()))
 		if res != nil && res.RawResponse != nil {
 			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res.RawResponse))
 		}
@@ -270,7 +270,7 @@ func (r *OrgsResource) Update(ctx context.Context, req resource.UpdateRequest, r
 	}
 	res, err := r.client.Orgs.UpdateOrganization(ctx, *request)
 	if err != nil {
-		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		resp.Diagnostics.AddError("failure to invoke API", redactSensitiveValues(ctx, err.Error()))
 		if res != nil && res.RawResponse != nil {
 			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res.RawResponse))
 		}
@@ -298,7 +298,7 @@ func (r *OrgsResource) Update(ctx context.Context, req resource.UpdateRequest, r
 	}
 	res1, err := r.client.Orgs.DescribeOrganization(ctx, *request1)
 	if err != nil {
-		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		resp.Diagnostics.AddError("failure to invoke API", redactSensitiveValues(ctx, err.Error()))
 		if res1 != nil && res1.RawResponse != nil {
 			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res1.RawResponse))
 		}
@@ -358,7 +358,7 @@ func (r *OrgsResource) Delete(ctx context.Context, req resource.DeleteRequest, r
 	}
 	res, err := r.client.Orgs.DeleteOrganization(ctx, *request)
 	if err != nil {
-		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		resp.Diagnostics.AddError("failure to invoke API", redactSensitiveValues(ctx, err.Error()))
 		if res != nil && res.RawResponse != nil {
 			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res.RawResponse))
 		}

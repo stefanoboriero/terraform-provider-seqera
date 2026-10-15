@@ -61,7 +61,14 @@ func CreateActionConfigTypeTower(tower ActionTowerActionConfig) ActionConfigType
 	}
 }
 
-func (u *ActionConfigType) UnmarshalJSON(data []byte) error {
+func (u *ActionConfigType) UnmarshalJSON(data []byte) (err error) {
+	previous := *u
+	*u = ActionConfigType{}
+	defer func() {
+		if err != nil {
+			*u = previous
+		}
+	}()
 
 	type discriminator struct {
 		Discriminator string `json:"discriminator"`

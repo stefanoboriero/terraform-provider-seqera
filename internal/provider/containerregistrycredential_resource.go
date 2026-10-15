@@ -156,6 +156,8 @@ func (r *ContainerRegistryCredentialResource) Create(ctx context.Context, req re
 		return
 	}
 
+	ctx = withSensitiveValues(ctx, req.Config, req.Plan)
+
 	request, requestDiags := data.ToOperationsCreateContainerRegistryCredentialsRequest(ctx, opts)
 	resp.Diagnostics.Append(requestDiags...)
 
@@ -164,7 +166,7 @@ func (r *ContainerRegistryCredentialResource) Create(ctx context.Context, req re
 	}
 	res, err := r.client.Credentials.CreateContainerRegistryCredentials(ctx, *request)
 	if err != nil {
-		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		resp.Diagnostics.AddError("failure to invoke API", redactSensitiveValues(ctx, err.Error()))
 		if res != nil && res.RawResponse != nil {
 			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res.RawResponse))
 		}
@@ -223,6 +225,8 @@ func (r *ContainerRegistryCredentialResource) Read(ctx context.Context, req reso
 		return
 	}
 
+	ctx = withSensitiveValues(ctx, req.State)
+
 	request, requestDiags := data.ToOperationsDescribeContainerRegistryCredentialsRequest(ctx, nil)
 	resp.Diagnostics.Append(requestDiags...)
 
@@ -231,7 +235,7 @@ func (r *ContainerRegistryCredentialResource) Read(ctx context.Context, req reso
 	}
 	res, err := r.client.Credentials.DescribeContainerRegistryCredentials(ctx, *request)
 	if err != nil {
-		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		resp.Diagnostics.AddError("failure to invoke API", redactSensitiveValues(ctx, err.Error()))
 		if res != nil && res.RawResponse != nil {
 			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res.RawResponse))
 		}
@@ -298,6 +302,8 @@ func (r *ContainerRegistryCredentialResource) Update(ctx context.Context, req re
 		return
 	}
 
+	ctx = withSensitiveValues(ctx, req.Config, req.Plan, req.State)
+
 	request, requestDiags := data.ToOperationsUpdateContainerRegistryCredentialsRequest(ctx, opts)
 	resp.Diagnostics.Append(requestDiags...)
 
@@ -306,7 +312,7 @@ func (r *ContainerRegistryCredentialResource) Update(ctx context.Context, req re
 	}
 	res, err := r.client.Credentials.UpdateContainerRegistryCredentials(ctx, *request)
 	if err != nil {
-		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		resp.Diagnostics.AddError("failure to invoke API", redactSensitiveValues(ctx, err.Error()))
 		if res != nil && res.RawResponse != nil {
 			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res.RawResponse))
 		}
@@ -349,6 +355,8 @@ func (r *ContainerRegistryCredentialResource) Delete(ctx context.Context, req re
 		return
 	}
 
+	ctx = withSensitiveValues(ctx, req.State)
+
 	request, requestDiags := data.ToOperationsDeleteContainerRegistryCredentialsRequest(ctx, nil)
 	resp.Diagnostics.Append(requestDiags...)
 
@@ -357,7 +365,7 @@ func (r *ContainerRegistryCredentialResource) Delete(ctx context.Context, req re
 	}
 	res, err := r.client.Credentials.DeleteContainerRegistryCredentials(ctx, *request)
 	if err != nil {
-		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		resp.Diagnostics.AddError("failure to invoke API", redactSensitiveValues(ctx, err.Error()))
 		if res != nil && res.RawResponse != nil {
 			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res.RawResponse))
 		}

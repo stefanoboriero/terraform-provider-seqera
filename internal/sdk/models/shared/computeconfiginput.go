@@ -3530,7 +3530,14 @@ func CreateComputeConfigInputUgePlatform(ugePlatform UnivaGridEngineConfiguratio
 	}
 }
 
-func (u *ComputeConfigInput) UnmarshalJSON(data []byte) error {
+func (u *ComputeConfigInput) UnmarshalJSON(data []byte) (err error) {
+	previous := *u
+	*u = ComputeConfigInput{}
+	defer func() {
+		if err != nil {
+			*u = previous
+		}
+	}()
 
 	type discriminator struct {
 		Discriminator string `json:"discriminator"`
@@ -4302,7 +4309,14 @@ func CreateComputeConfigUgePlatform(ugePlatform UnivaGridEngineConfiguration) Co
 	}
 }
 
-func (u *ComputeConfig) UnmarshalJSON(data []byte) error {
+func (u *ComputeConfig) UnmarshalJSON(data []byte) (err error) {
+	previous := *u
+	*u = ComputeConfig{}
+	defer func() {
+		if err != nil {
+			*u = previous
+		}
+	}()
 
 	type discriminator struct {
 		Discriminator string `json:"discriminator"`

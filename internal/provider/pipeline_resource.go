@@ -331,7 +331,7 @@ func (r *PipelineResource) Create(ctx context.Context, req resource.CreateReques
 	}
 	res, err := r.client.Pipelines.CreatePipeline(ctx, *request)
 	if err != nil {
-		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		resp.Diagnostics.AddError("failure to invoke API", redactSensitiveValues(ctx, err.Error()))
 		if res != nil && res.RawResponse != nil {
 			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res.RawResponse))
 		}
@@ -375,7 +375,7 @@ func (r *PipelineResource) Create(ctx context.Context, req resource.CreateReques
 	}
 	res1, err := r.client.Pipelines.DescribePipeline(ctx, *request1)
 	if err != nil {
-		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		resp.Diagnostics.AddError("failure to invoke API", redactSensitiveValues(ctx, err.Error()))
 		if res1 != nil && res1.RawResponse != nil {
 			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res1.RawResponse))
 		}
@@ -435,7 +435,7 @@ func (r *PipelineResource) Read(ctx context.Context, req resource.ReadRequest, r
 	}
 	res, err := r.client.Pipelines.DescribePipeline(ctx, *request)
 	if err != nil {
-		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		resp.Diagnostics.AddError("failure to invoke API", redactSensitiveValues(ctx, err.Error()))
 		if res != nil && res.RawResponse != nil {
 			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res.RawResponse))
 		}
@@ -489,7 +489,7 @@ func (r *PipelineResource) Update(ctx context.Context, req resource.UpdateReques
 	}
 	res, err := r.client.Pipelines.UpdatePipeline(ctx, *request)
 	if err != nil {
-		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		resp.Diagnostics.AddError("failure to invoke API", redactSensitiveValues(ctx, err.Error()))
 		if res != nil && res.RawResponse != nil {
 			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res.RawResponse))
 		}
@@ -526,7 +526,7 @@ func (r *PipelineResource) Update(ctx context.Context, req resource.UpdateReques
 	}
 	res1, err := r.client.Pipelines.DescribePipeline(ctx, *request1)
 	if err != nil {
-		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		resp.Diagnostics.AddError("failure to invoke API", redactSensitiveValues(ctx, err.Error()))
 		if res1 != nil && res1.RawResponse != nil {
 			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res1.RawResponse))
 		}
@@ -586,7 +586,7 @@ func (r *PipelineResource) Delete(ctx context.Context, req resource.DeleteReques
 	}
 	res, err := r.client.Pipelines.DeletePipeline(ctx, *request)
 	if err != nil {
-		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		resp.Diagnostics.AddError("failure to invoke API", redactSensitiveValues(ctx, err.Error()))
 		if res != nil && res.RawResponse != nil {
 			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res.RawResponse))
 		}
