@@ -5107,7 +5107,7 @@ func (r *ComputeEnvResource) Create(ctx context.Context, req resource.CreateRequ
 	}
 	res, err := r.client.ComputeEnvs.CreateComputeEnv(ctx, *request)
 	if err != nil {
-		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		resp.Diagnostics.AddError("failure to invoke API", redactSensitiveValues(ctx, err.Error()))
 		if res != nil && res.RawResponse != nil {
 			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res.RawResponse))
 		}
@@ -5144,7 +5144,7 @@ func (r *ComputeEnvResource) Create(ctx context.Context, req resource.CreateRequ
 	}
 	res1, err := r.client.ComputeEnvs.DescribeComputeEnv(ctx, *request1)
 	if err != nil {
-		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		resp.Diagnostics.AddError("failure to invoke API", redactSensitiveValues(ctx, err.Error()))
 		if res1 != nil && res1.RawResponse != nil {
 			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res1.RawResponse))
 		}
@@ -5204,7 +5204,7 @@ func (r *ComputeEnvResource) Read(ctx context.Context, req resource.ReadRequest,
 	}
 	res, err := r.client.ComputeEnvs.DescribeComputeEnv(ctx, *request)
 	if err != nil {
-		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		resp.Diagnostics.AddError("failure to invoke API", redactSensitiveValues(ctx, err.Error()))
 		if res != nil && res.RawResponse != nil {
 			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res.RawResponse))
 		}
@@ -5258,7 +5258,7 @@ func (r *ComputeEnvResource) Update(ctx context.Context, req resource.UpdateRequ
 	}
 	res, err := r.client.ComputeEnvs.UpdateComputeEnv(ctx, *request)
 	if err != nil {
-		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		resp.Diagnostics.AddError("failure to invoke API", redactSensitiveValues(ctx, err.Error()))
 		if res != nil && res.RawResponse != nil {
 			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res.RawResponse))
 		}
@@ -5286,7 +5286,7 @@ func (r *ComputeEnvResource) Update(ctx context.Context, req resource.UpdateRequ
 	}
 	res1, err := r.client.ComputeEnvs.DescribeComputeEnv(ctx, *request1)
 	if err != nil {
-		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		resp.Diagnostics.AddError("failure to invoke API", redactSensitiveValues(ctx, err.Error()))
 		if res1 != nil && res1.RawResponse != nil {
 			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res1.RawResponse))
 		}
@@ -5346,7 +5346,7 @@ func (r *ComputeEnvResource) Delete(ctx context.Context, req resource.DeleteRequ
 	}
 	res, err := r.client.ComputeEnvs.DeleteComputeEnv(ctx, *request)
 	if err != nil {
-		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		resp.Diagnostics.AddError("failure to invoke API", redactSensitiveValues(ctx, err.Error()))
 		if res != nil && res.RawResponse != nil {
 			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res.RawResponse))
 		}

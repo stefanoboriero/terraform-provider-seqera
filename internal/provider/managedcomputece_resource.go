@@ -379,7 +379,7 @@ func (r *ManagedComputeCEResource) Create(ctx context.Context, req resource.Crea
 	}
 	res, err := r.client.ComputeEnvs.CreateManagedComputeCE(ctx, *request)
 	if err != nil {
-		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		resp.Diagnostics.AddError("failure to invoke API", redactSensitiveValues(ctx, err.Error()))
 		if res != nil && res.RawResponse != nil {
 			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res.RawResponse))
 		}
@@ -423,7 +423,7 @@ func (r *ManagedComputeCEResource) Create(ctx context.Context, req resource.Crea
 	}
 	res1, err := r.client.ComputeEnvs.DescribeManagedComputeCE(ctx, *request1)
 	if err != nil {
-		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		resp.Diagnostics.AddError("failure to invoke API", redactSensitiveValues(ctx, err.Error()))
 		if res1 != nil && res1.RawResponse != nil {
 			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res1.RawResponse))
 		}
@@ -483,7 +483,7 @@ func (r *ManagedComputeCEResource) Read(ctx context.Context, req resource.ReadRe
 	}
 	res, err := r.client.ComputeEnvs.DescribeManagedComputeCE(ctx, *request)
 	if err != nil {
-		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		resp.Diagnostics.AddError("failure to invoke API", redactSensitiveValues(ctx, err.Error()))
 		if res != nil && res.RawResponse != nil {
 			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res.RawResponse))
 		}
@@ -561,7 +561,7 @@ func (r *ManagedComputeCEResource) Delete(ctx context.Context, req resource.Dele
 	}
 	res, err := r.client.ComputeEnvs.DeleteManagedComputeCE(ctx, *request)
 	if err != nil {
-		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		resp.Diagnostics.AddError("failure to invoke API", redactSensitiveValues(ctx, err.Error()))
 		if res != nil && res.RawResponse != nil {
 			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res.RawResponse))
 		}

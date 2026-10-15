@@ -999,7 +999,7 @@ func (r *AWSBatchCEResource) Create(ctx context.Context, req resource.CreateRequ
 	}
 	res, err := r.client.ComputeEnvs.CreateAWSBatchCE(ctx, *request)
 	if err != nil {
-		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		resp.Diagnostics.AddError("failure to invoke API", redactSensitiveValues(ctx, err.Error()))
 		if res != nil && res.RawResponse != nil {
 			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res.RawResponse))
 		}
@@ -1043,7 +1043,7 @@ func (r *AWSBatchCEResource) Create(ctx context.Context, req resource.CreateRequ
 	}
 	res1, err := r.client.ComputeEnvs.DescribeAWSBatchCE(ctx, *request1)
 	if err != nil {
-		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		resp.Diagnostics.AddError("failure to invoke API", redactSensitiveValues(ctx, err.Error()))
 		if res1 != nil && res1.RawResponse != nil {
 			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res1.RawResponse))
 		}
@@ -1103,7 +1103,7 @@ func (r *AWSBatchCEResource) Read(ctx context.Context, req resource.ReadRequest,
 	}
 	res, err := r.client.ComputeEnvs.DescribeAWSBatchCE(ctx, *request)
 	if err != nil {
-		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		resp.Diagnostics.AddError("failure to invoke API", redactSensitiveValues(ctx, err.Error()))
 		if res != nil && res.RawResponse != nil {
 			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res.RawResponse))
 		}
@@ -1181,7 +1181,7 @@ func (r *AWSBatchCEResource) Delete(ctx context.Context, req resource.DeleteRequ
 	}
 	res, err := r.client.ComputeEnvs.DeleteAWSBatchCE(ctx, *request)
 	if err != nil {
-		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		resp.Diagnostics.AddError("failure to invoke API", redactSensitiveValues(ctx, err.Error()))
 		if res != nil && res.RawResponse != nil {
 			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res.RawResponse))
 		}

@@ -381,7 +381,7 @@ func (r *StudiosResource) Create(ctx context.Context, req resource.CreateRequest
 	}
 	res, err := r.client.Studios.CreateDataStudio(ctx, *request)
 	if err != nil {
-		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		resp.Diagnostics.AddError("failure to invoke API", redactSensitiveValues(ctx, err.Error()))
 		if res != nil && res.RawResponse != nil {
 			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res.RawResponse))
 		}
@@ -451,7 +451,7 @@ func (r *StudiosResource) Read(ctx context.Context, req resource.ReadRequest, re
 	}
 	res, err := r.client.Studios.DescribeDataStudio(ctx, *request)
 	if err != nil {
-		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		resp.Diagnostics.AddError("failure to invoke API", redactSensitiveValues(ctx, err.Error()))
 		if res != nil && res.RawResponse != nil {
 			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res.RawResponse))
 		}
@@ -532,7 +532,7 @@ func (r *StudiosResource) Delete(ctx context.Context, req resource.DeleteRequest
 	}
 	res, err := r.client.Studios.DeleteDataStudio(ctx, *request)
 	if err != nil {
-		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		resp.Diagnostics.AddError("failure to invoke API", redactSensitiveValues(ctx, err.Error()))
 		if res != nil && res.RawResponse != nil {
 			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res.RawResponse))
 		}

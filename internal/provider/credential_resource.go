@@ -931,6 +931,8 @@ func (r *CredentialResource) Create(ctx context.Context, req resource.CreateRequ
 		return
 	}
 
+	ctx = withSensitiveValues(ctx, req.Config, req.Plan)
+
 	request, requestDiags := data.ToOperationsCreateCredentialsRequest(ctx)
 	resp.Diagnostics.Append(requestDiags...)
 
@@ -939,7 +941,7 @@ func (r *CredentialResource) Create(ctx context.Context, req resource.CreateRequ
 	}
 	res, err := r.client.Credentials.CreateCredentials(ctx, *request)
 	if err != nil {
-		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		resp.Diagnostics.AddError("failure to invoke API", redactSensitiveValues(ctx, err.Error()))
 		if res != nil && res.RawResponse != nil {
 			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res.RawResponse))
 		}
@@ -976,7 +978,7 @@ func (r *CredentialResource) Create(ctx context.Context, req resource.CreateRequ
 	}
 	res1, err := r.client.Credentials.DescribeCredentials(ctx, *request1)
 	if err != nil {
-		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		resp.Diagnostics.AddError("failure to invoke API", redactSensitiveValues(ctx, err.Error()))
 		if res1 != nil && res1.RawResponse != nil {
 			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res1.RawResponse))
 		}
@@ -1028,6 +1030,8 @@ func (r *CredentialResource) Read(ctx context.Context, req resource.ReadRequest,
 		return
 	}
 
+	ctx = withSensitiveValues(ctx, req.State)
+
 	request, requestDiags := data.ToOperationsDescribeCredentialsRequest(ctx)
 	resp.Diagnostics.Append(requestDiags...)
 
@@ -1036,7 +1040,7 @@ func (r *CredentialResource) Read(ctx context.Context, req resource.ReadRequest,
 	}
 	res, err := r.client.Credentials.DescribeCredentials(ctx, *request)
 	if err != nil {
-		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		resp.Diagnostics.AddError("failure to invoke API", redactSensitiveValues(ctx, err.Error()))
 		if res != nil && res.RawResponse != nil {
 			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res.RawResponse))
 		}
@@ -1082,6 +1086,8 @@ func (r *CredentialResource) Update(ctx context.Context, req resource.UpdateRequ
 		return
 	}
 
+	ctx = withSensitiveValues(ctx, req.Config, req.Plan, req.State)
+
 	request, requestDiags := data.ToOperationsUpdateCredentialsRequest(ctx)
 	resp.Diagnostics.Append(requestDiags...)
 
@@ -1090,7 +1096,7 @@ func (r *CredentialResource) Update(ctx context.Context, req resource.UpdateRequ
 	}
 	res, err := r.client.Credentials.UpdateCredentials(ctx, *request)
 	if err != nil {
-		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		resp.Diagnostics.AddError("failure to invoke API", redactSensitiveValues(ctx, err.Error()))
 		if res != nil && res.RawResponse != nil {
 			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res.RawResponse))
 		}
@@ -1118,7 +1124,7 @@ func (r *CredentialResource) Update(ctx context.Context, req resource.UpdateRequ
 	}
 	res1, err := r.client.Credentials.DescribeCredentials(ctx, *request1)
 	if err != nil {
-		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		resp.Diagnostics.AddError("failure to invoke API", redactSensitiveValues(ctx, err.Error()))
 		if res1 != nil && res1.RawResponse != nil {
 			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res1.RawResponse))
 		}
@@ -1170,6 +1176,8 @@ func (r *CredentialResource) Delete(ctx context.Context, req resource.DeleteRequ
 		return
 	}
 
+	ctx = withSensitiveValues(ctx, req.State)
+
 	request, requestDiags := data.ToOperationsDeleteCredentialsRequest(ctx)
 	resp.Diagnostics.Append(requestDiags...)
 
@@ -1178,7 +1186,7 @@ func (r *CredentialResource) Delete(ctx context.Context, req resource.DeleteRequ
 	}
 	res, err := r.client.Credentials.DeleteCredentials(ctx, *request)
 	if err != nil {
-		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		resp.Diagnostics.AddError("failure to invoke API", redactSensitiveValues(ctx, err.Error()))
 		if res != nil && res.RawResponse != nil {
 			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res.RawResponse))
 		}

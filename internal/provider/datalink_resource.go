@@ -204,7 +204,7 @@ func (r *DataLinkResource) Create(ctx context.Context, req resource.CreateReques
 	}
 	res, err := r.client.DataLinks.CreateCustomDataLink(ctx, *request)
 	if err != nil {
-		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		resp.Diagnostics.AddError("failure to invoke API", redactSensitiveValues(ctx, err.Error()))
 		if res != nil && res.RawResponse != nil {
 			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res.RawResponse))
 		}
@@ -264,7 +264,7 @@ func (r *DataLinkResource) Read(ctx context.Context, req resource.ReadRequest, r
 	}
 	res, err := r.client.DataLinks.DescribeDataLink(ctx, *request)
 	if err != nil {
-		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		resp.Diagnostics.AddError("failure to invoke API", redactSensitiveValues(ctx, err.Error()))
 		if res != nil && res.RawResponse != nil {
 			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res.RawResponse))
 		}
@@ -318,7 +318,7 @@ func (r *DataLinkResource) Update(ctx context.Context, req resource.UpdateReques
 	}
 	res, err := r.client.DataLinks.UpdateCustomDataLink(ctx, *request)
 	if err != nil {
-		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		resp.Diagnostics.AddError("failure to invoke API", redactSensitiveValues(ctx, err.Error()))
 		if res != nil && res.RawResponse != nil {
 			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res.RawResponse))
 		}
@@ -378,7 +378,7 @@ func (r *DataLinkResource) Delete(ctx context.Context, req resource.DeleteReques
 	}
 	res, err := r.client.DataLinks.DeleteCustomDataLink(ctx, *request)
 	if err != nil {
-		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		resp.Diagnostics.AddError("failure to invoke API", redactSensitiveValues(ctx, err.Error()))
 		if res != nil && res.RawResponse != nil {
 			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res.RawResponse))
 		}

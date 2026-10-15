@@ -2,7 +2,7 @@
 
 package sdk
 
-// Generated from OpenAPI doc version 1.144.0 and generator version 2.881.2
+// Generated from OpenAPI doc version 1.144.0 and generator version 2.948.4
 
 import (
 	"context"
@@ -173,10 +173,13 @@ func WithTimeout(timeout time.Duration) SDKOption {
 // New creates a new instance of the SDK with the provided options
 func New(opts ...SDKOption) *Seqera {
 	sdk := &Seqera{
-		SDKVersion: "0.30.5",
+		SDKVersion: "0.40.0",
 		sdkConfiguration: config.SDKConfiguration{
-			UserAgent:  "speakeasy-sdk/terraform 0.30.5 2.881.2 1.144.0 github.com/seqeralabs/terraform-provider-seqera/internal/sdk",
-			ServerList: ServerList,
+			UserAgent:         "speakeasy-sdk/terraform 0.40.0 2.948.4 1.144.0 github.com/seqeralabs/terraform-provider-seqera/internal/sdk",
+			SDKVersion:        "0.40.0",
+			GenVersion:        "2.948.4",
+			OpenAPIDocVersion: "1.144.0",
+			ServerList:        ServerList,
 		},
 		hooks: hooks.New(),
 	}

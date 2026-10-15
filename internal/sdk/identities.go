@@ -1019,6 +1019,7 @@ func (s *Identities) CreateManagedCredentials(ctx context.Context, request opera
 		defer cancel()
 	}
 
+	ctx = utils.WithOperation(ctx, "CreateManagedCredentials")
 	req, err := http.NewRequestWithContext(ctx, "POST", opURL, bodyReader)
 	if err != nil {
 		return nil, fmt.Errorf("error creating request: %w", err)
@@ -1342,6 +1343,7 @@ func (s *Identities) UpdateManagedCredentials(ctx context.Context, request opera
 		defer cancel()
 	}
 
+	ctx = utils.WithOperation(ctx, "UpdateManagedCredentials")
 	req, err := http.NewRequestWithContext(ctx, "PUT", opURL, bodyReader)
 	if err != nil {
 		return nil, fmt.Errorf("error creating request: %w", err)

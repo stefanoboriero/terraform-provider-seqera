@@ -86,6 +86,8 @@ terraform:
     - env: TOWER_ACCESS_TOKEN
       providerAttribute: bearer_auth
   excludeEmptyObjectSchemas: false
+  fixFlags:
+    encodePathParams: false
   forwardCompatibleEnumsByDefault: false
   generateValidationHelpers: true
   includeEmptyObjects: false
@@ -95,6 +97,7 @@ terraform:
   providerTypeNameOverride: ""
   respectRequiredFields: false
   respectTitlesForPrimitiveUnionMembers: false
+  serverVariableProviderAttributes: {}
   unionStrategy: populated-fields
   validation:
     enabled: true
