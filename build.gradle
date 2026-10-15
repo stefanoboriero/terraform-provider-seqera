@@ -17,7 +17,7 @@ tasks.register('buildJavaClient', GenerateTask) {
     configOptions = [
             groupId: "io.seqera.tower",
             artifactId: "tower-java-sdk",
-            artifactVersion: "1.144.0",
+            artifactVersion: "1.147.0",
             library: "jersey2",
             hideGenerationTimestamp: "true",
             dateLibrary: "java8",
